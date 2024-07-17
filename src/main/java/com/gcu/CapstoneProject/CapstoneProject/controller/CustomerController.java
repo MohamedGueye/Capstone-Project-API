@@ -1,5 +1,6 @@
 package com.gcu.CapstoneProject.CapstoneProject.controller;
 
+import com.gcu.CapstoneProject.CapstoneProject.ErrorHandler.InternalServerError;
 import com.gcu.CapstoneProject.CapstoneProject.models.ContingentBeneficiary;
 import com.gcu.CapstoneProject.CapstoneProject.models.CustomerInfo;
 import com.gcu.CapstoneProject.CapstoneProject.models.PrimaryBeneficiary;
@@ -20,8 +21,14 @@ public class CustomerController {
 
     @GetMapping("/customer/{accountNumber}")
     public ResponseEntity<CustomerInfo> getCustomer(@PathVariable String accountNumber) {
-        CustomerInfo customerInfo = serviceImpl.getCustomer(accountNumber);
-        return new ResponseEntity<CustomerInfo>(customerInfo, HttpStatus.OK);
+//        CustomerInfo customerInfo = serviceImpl.getCustomer(accountNumber);
+//        return new ResponseEntity<CustomerInfo>(customerInfo, HttpStatus.OK);
+        try {
+            CustomerInfo customerInfo = serviceImpl.getCustomer(accountNumber);
+            return new ResponseEntity<CustomerInfo>(customerInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new InternalServerError();
+        }
     }
 
     @GetMapping("primaryBeneficiary/{accountNumber}")
